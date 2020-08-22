@@ -2,19 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
-Route::get('/','ApiController@index')->name('index');
 
-Route::resource('api','ApiController');
+Route::get('/','ApiController@index')->name('index')->middleware('auth');
 
-Route::any('/{entry}','ApiController@entry')->name('entry');
+Route::resource('api','ApiController')->middleware('auth');
+
+
+Route::get('/login',"LoginController@login")->name('login.form');
+Route::get('/login/git','LoginController@githubLogin')->name('login.github');
+Route::get('/login/github', "LoginController@githubCallback")->name('login.gitCallbaclk');
+Route::get('/logout',"LoginController@logout")->name('logout');
+
+Route::any('/{user}/{any}','ApiController@go')->name('entry')->where('any', '.*');;
+
+

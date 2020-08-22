@@ -16,6 +16,9 @@ class CreateApisTable extends Migration
             $table->string('entry');
             $table->json('data');
             $table->string('method');
+            $table->unsignedBigInteger('user_id');
+
+            $table->foreign('user_id')->references('id')->on('users');
 
         });
     }
